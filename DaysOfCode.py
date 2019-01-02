@@ -10,7 +10,9 @@ days_of_code_remote = 'https://github.com/kallaway/100-days-of-code'
 log_template = """### Day {0}: {1}
 
 **Today's Progress**: {2}
+
 **Thoughts:** {3}
+
 **Link to work:** [{4}]({5})"""
 
 
