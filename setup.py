@@ -14,7 +14,7 @@ setup(
     entry_point={
         'console_scripts': ['doc=DaysOfCode.bootstrap:main']
     },
-    verion=version,
+    version=version,
     url='https://github.com/PeterMcD/100-Days-Of-Code-Cli-Tool',
     project_url='https://github.com/PeterMcD/100-Days-Of-Code-Cli-Tool',
     author='Peter McDonald',
