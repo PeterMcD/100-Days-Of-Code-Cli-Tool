@@ -3,8 +3,7 @@ import subprocess
 import datetime
 import re
 import shutil
-import Git
-
+from .Git import Git
 
 days_of_code_remote = 'https://github.com/kallaway/100-days-of-code'
 log_template = """### Day {0}: {1}

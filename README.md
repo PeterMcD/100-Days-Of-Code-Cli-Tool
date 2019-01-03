@@ -47,8 +47,7 @@ Although this has only been tested on Linux (specifically Ubuntu), this should a
 
 ### ToDo
 
-1) Enable the script to be called as if it were a standard cli command.
-2) Improve the tool to upload the log to the users own Github repository.
-3) Enable choice in which log to use.
-4) Better handling of errors (for example if a git commit fails).
-5) Test functionality on Windows.
+1) Improve the tool to upload the log to the users own Github repository.
+2) Enable choice in which log to use.
+3) Better handling of errors (for example if a git commit fails).
+4) Test functionality on Windows.
