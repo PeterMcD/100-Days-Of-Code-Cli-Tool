@@ -8,11 +8,10 @@ The script
 
 ### Usage
 
-The tool is a simple cli tool. Firstly you should clone this repository:
+The tool is a simple cli tool. Firstly you should install the package:
 
 ```bash
-git clone https://github.com/PeterMcD/100-Days-Of-Code-Cli-Tool
-cd 100-Days-Of-Code-Cli-Tool
+pip install git+https://github.com/PeterMcD/100-Days-Of-Code-Cli-Tool.git
 ```
 
 Once downloaded:
@@ -21,16 +20,16 @@ To start the challenge;
 
 ```bash
 // To start the challenge
-python3 main.py --start
+doc --start
 
 // To log days activity
-python3 main.py -newday
+doc -newday
 
 // Restart challenge
-python3 main.py --restart
+doc --restart
 
 // Getting help
-python3 main.py --help
+doc --help
 ```
 
 Additional arguments

@@ -12,7 +12,7 @@ setup(
     name='DaysOfCode',
     packages=['DaysOfCode'],
     entry_point={
-        'console_scripts': ['DaysOfCode=DaysOfCode.bootstrap:main']
+        'console_scripts': ['doc=DaysOfCode.bootstrap:main']
     },
     verion=version,
     url='https://github.com/PeterMcD/100-Days-Of-Code-Cli-Tool',
