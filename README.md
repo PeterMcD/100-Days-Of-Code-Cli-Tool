@@ -4,7 +4,7 @@
 
 This tool was my first project as part of the 100 Days Of Code challenge.
 
-The script
+The script helps create your journal and keep it upto date as you go along. 
 
 ### Usage
 

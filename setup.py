@@ -1,6 +1,8 @@
-from setuptools import setup
+import setuptools
 import re
 
+with open("README.md", "r") as fh:
+    long_description = fh.read()
 
 version = re.search(
     '^__version__ *= *"([.0-9]+)"',
@@ -8,11 +10,12 @@ version = re.search(
     re.M
 ).group(1)
 
-setup(
+setuptools.setup(
     name='DaysOfCode',
-    packages=['DaysOfCode'],
+    packages=setuptools.find_packages(),
     entry_point={
-        'console_scripts': ['doc=DaysOfCode.bootstrap:main']
+        'console_scripts': ['doc=DaysOfCode.bootstrap:main',
+                            ]
     },
     version=version,
     url='https://github.com/PeterMcD/100-Days-Of-Code-Cli-Tool',
@@ -21,10 +24,14 @@ setup(
     author_email='a@b.com',
     maintainer='Peter McDonald',
     maintainer_email='a@b.com',
-    classifiers='Programming Language :: Python :: 3',
+    classifiers=["Programming Language :: Python :: 3",
+                 "License :: OSI Approved :: MIT License",
+                 "Operating System :: OS Independent",
+                 ],
     licence='MIT',
-    description='',
-    long_description='',
+    description='Package assisting logging progress in the 100 Days Of Code challenge',
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     keywords=['100 days of code,'
               'programming',
               ],
