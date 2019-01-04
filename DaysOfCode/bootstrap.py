@@ -1,12 +1,10 @@
+#!/usr/bin/env python
+
 import os
 import argparse
-import DaysOfCode as DaysOfCode
+from .DaysOfCode import DaysOfCode
 
-
-"""
-a = git.Git(os.path.expanduser())
-a.clone_remote('https://github.com/kallaway/100-days-of-code')
-"""
+__version__ = "0.1.4"
 
 default_location = os.path.join(os.path.expanduser('~'), 'Documents')
 
@@ -31,7 +29,7 @@ def main():
                         default=default_location
                         )
     args = parser.parse_args()
-    doc = DaysOfCode.DaysOfCode(args.path)
+    doc = DaysOfCode(args.path)
     if args.start:
         doc.start()
     elif args.restart:
@@ -40,7 +38,3 @@ def main():
         doc.new_day()
     else:
         parser.print_usage()
-
-
-if __name__ == '__main__':
-    main()

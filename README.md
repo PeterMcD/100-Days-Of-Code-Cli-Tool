@@ -4,15 +4,14 @@
 
 This tool was my first project as part of the 100 Days Of Code challenge.
 
-The script
+The script helps create your journal and keep it upto date as you go along. 
 
 ### Usage
 
-The tool is a simple cli tool. Firstly you should clone this repository:
+The tool is a simple cli tool. Firstly you should install the package:
 
 ```bash
-git clone https://github.com/PeterMcD/100-Days-Of-Code-Cli-Tool
-cd 100-Days-Of-Code-Cli-Tool
+pip install git+https://github.com/PeterMcD/100-Days-Of-Code-Cli-Tool.git
 ```
 
 Once downloaded:
@@ -21,16 +20,16 @@ To start the challenge;
 
 ```bash
 // To start the challenge
-python3 main.py --start
+doc --start
 
 // To log days activity
-python3 main.py -newday
+doc -newday
 
 // Restart challenge
-python3 main.py --restart
+doc --restart
 
 // Getting help
-python3 main.py --help
+doc --help
 ```
 
 Additional arguments
@@ -47,8 +46,7 @@ Although this has only been tested on Linux (specifically Ubuntu), this should a
 
 ### ToDo
 
-1) Enable the script to be called as if it were a standard cli command.
-2) Improve the tool to upload the log to the users own Github repository.
-3) Enable choice in which log to use.
-4) Better handling of errors (for example if a git commit fails).
-5) Test functionality on Windows.
+1) Improve the tool to upload the log to the users own Github repository.
+2) Enable choice in which log to use.
+3) Better handling of errors (for example if a git commit fails).
+4) Test functionality on Windows.
