@@ -4,7 +4,7 @@ import os
 import argparse
 from .DaysOfCode import DaysOfCode
 
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 
 default_location = os.path.join(os.path.expanduser('~'), 'Documents')
 
@@ -29,7 +29,7 @@ def main():
                         default=default_location
                         )
     args = parser.parse_args()
-    doc = DaysOfCode.DaysOfCode(args.path)
+    doc = DaysOfCode(args.path)
     if args.start:
         doc.start()
     elif args.restart:
