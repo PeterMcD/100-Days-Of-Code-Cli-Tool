@@ -13,7 +13,7 @@ version = re.search(
 setuptools.setup(
     name='DaysOfCode',
     packages=setuptools.find_packages(),
-    entry_point={
+    entry_points={
         'console_scripts': ['doc=DaysOfCode.bootstrap:main',
                             ]
     },
