@@ -21,16 +21,16 @@ class DaysOfCodeException(Exception):
 
 
 class DaysOfCode:
-    _path: str = ''
+    __slots__ = ['_path', '_git']
 
-    def __init__(self, path: str):
+    def __init__(self, path: str) -> None:
         self._check_path(path)
+        self._git = Git(self._path)
 
-    def start(self):
+    def start(self) -> None:
         self._set_existing_path()
         os.chdir(self._path)
-        git = Git.Git(self._path)
-        git.clone_remote(days_of_code_remote)
+        self._git.clone_remote(days_of_code_remote)
         self._clear_log()
         self._write_header_details()
         self._print_message(os.linesep +
@@ -40,11 +40,11 @@ class DaysOfCode:
                             os.linesep
                             )
 
-    def restart(self):
+    def restart(self) -> None:
         self._delete_project()
         self.start()
 
-    def new_day(self):
+    def new_day(self) -> None:
         log_file_path = os.path.join(self._path, '100-days-of-code', 'log.md')
         if not os.path.isfile(log_file_path):
             raise DaysOfCodeException('Log file does not exist.')
@@ -70,32 +70,26 @@ class DaysOfCode:
         file.write('\r\n\r\n{}'.format(log_entry))
         file.close()
         os.chdir(os.path.join(self._path, '100-days-of-code'))
-        subprocess.call(['git', 'add'],
-                        shell=False,
-                        stdout=subprocess.DEVNULL,
-                        stderr=subprocess.DEVNULL)
-        subprocess.call(['git', 'commit', '-m', 'Day {} added'.format(day)],
-                        shell=False,
-                        stdout=subprocess.DEVNULL,
-                        stderr=subprocess.DEVNULL)
+        self._git.add_file(repository='100-days-of-code')
+        self._git.commit(repository='100-days-of-code', message='Day {} added'.format(day))
         self._print_message(os.linesep +
                             'Congratulations on completing day ' +
                             str(day) +
-                            ' of your 100 Days of code challenge.'+
+                            ' of your 100 Days of code challenge.' +
                             os.linesep
                             )
 
-    def end(self):
+    def end(self) -> None:
         pass
 
-    def _check_path(self, path: str):
+    def _check_path(self, path: str) -> None:
         path_input = os.path.expanduser(path)
         while not os.path.exists(path_input):
             path_input = input('The specified path does not exist (' + path_input + '): ')
             path_input = os.path.expanduser(path_input)
         self._path = path_input
 
-    def _write_header_details(self):
+    def _write_header_details(self) -> None:
         text = '# 100 Days Of Code - Log'
         log_file_path = os.path.join(self._path, '100-days-of-code', 'log.md')
         if not os.path.isfile(log_file_path):
@@ -126,14 +120,14 @@ class DaysOfCode:
         file.close()
         return path
 
-    def _set_existing_path(self):
+    def _set_existing_path(self) -> None:
         os.chdir(os.path.expanduser('~'))
         subprocess.call(['touch', '.100daysofcode'])
         file = open(file='.100daysofcode', mode='w')
         file.write(self._path)
         file.close()
 
-    def _clear_log(self):
+    def _clear_log(self) -> None:
         directory = os.path.join(self._path, '100-days-of-code')
         directory_with_file = os.path.join(self._path, '100-days-of-code', 'log.md')
         if not os.path.isfile(directory_with_file) and not os.path.isdir(directory):
@@ -148,13 +142,13 @@ class DaysOfCode:
         subprocess.call(['touch', 'log.md'], shell=False)
 
     @staticmethod
-    def _print_message(message: str, error: bool = False):
+    def _print_message(message: str, error: bool = False) -> None:
         if error:
             """Do something to change color"""
             pass
         print(message)
 
-    def _delete_project(self):
+    def _delete_project(self) -> None:
         directory = os.path.join(self._path, '100-days-of-code')
         shutil.rmtree(directory)
         os.chdir(os.path.expanduser('~'))
