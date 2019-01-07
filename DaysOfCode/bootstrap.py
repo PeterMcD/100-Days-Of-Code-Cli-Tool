@@ -4,12 +4,12 @@ import os
 import argparse
 from .DaysOfCode import DaysOfCode
 
-__version__ = "0.1.4"
+__version__ = "0.1.5"
 
 default_location = os.path.join(os.path.expanduser('~'), 'Documents')
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser()
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('--start', '-s',
