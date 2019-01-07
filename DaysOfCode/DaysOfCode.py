@@ -3,6 +3,7 @@ import subprocess
 import datetime
 import re
 import shutil
+import contextlib
 from .Git import Git
 
 days_of_code_remote = 'https://github.com/kallaway/100-days-of-code'
@@ -142,7 +143,8 @@ class DaysOfCode:
             subprocess.call(['touch', 'log.md'])
             return
         os.chdir(directory)
-        os.remove('log.md')
+        with contextlib.suppress(FileNotFoundError):
+            os.remove('log.md')
         subprocess.call(['touch', 'log.md'], shell=False)
 
     @staticmethod
@@ -156,4 +158,5 @@ class DaysOfCode:
         directory = os.path.join(self._path, '100-days-of-code')
         shutil.rmtree(directory)
         os.chdir(os.path.expanduser('~'))
-        os.remove('.100daysofcode')
+        with contextlib.suppress(FileNotFoundError):
+            os.remove('.100daysofcode')
