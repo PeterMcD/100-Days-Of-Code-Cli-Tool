@@ -32,6 +32,10 @@ def main() -> None:
     group.add_argument('--edit', '-e',
                        help='Edit the specified day.',
                        )
+    group.add_argument('--delete',
+                       help='Delete challenge.',
+                       action='store_true'
+                       )
     parser.add_argument('--path', '-p',
                         help='The path where git repository is to be stored.',
                         default=default_location
@@ -48,5 +52,7 @@ def main() -> None:
         doc.display_day(args.display)
     elif args.edit:
         doc.edit_day(args.edit)
+    elif args.delete:
+        doc.delete()
     else:
         parser.print_usage()
