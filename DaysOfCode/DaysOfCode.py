@@ -30,7 +30,8 @@ class DaysOfCode:
         self._config = os.path.join(os.path.expanduser('~'), '.100DaysOfCode')
         self._git = Git(self._path)
 
-    def start(self):
+    def start(self) -> None:
+        """Start a new 100 Days Of Code challenge"""
         self._update_config()
         self._git.clone_remote(days_of_code_remote)
         self._write_log_header()
@@ -41,10 +42,12 @@ class DaysOfCode:
                             os.linesep
                             )
 
-    def restart(self):
+    def restart(self) -> None:
+        """Resets challenge details and log"""
         self._write_log_header()
 
-    def new_day(self):
+    def new_day(self) -> None:
+        """Enter a new day into the challenge log"""
         if not os.path.isfile(self._config):
             raise DaysOfCodeException('Log file does not exist.')
         current_date = datetime.datetime.now()
@@ -79,6 +82,7 @@ class DaysOfCode:
                             )
 
     def display_day(self, day: int = 0) -> None:
+        """Outputs the details for a given day, otherwise all days"""
         regex_parse_day = r'### (?:Day )([0-9]*)(?::)([^*]*)(?:\s)' \
                           r'(?:\*\*Today\'s Progress\*\*)([^*]*)(?:\s)' \
                           r'(?:\*\*Thoughts\*\*)([^*]*)(?:\s)' \
@@ -99,13 +103,24 @@ class DaysOfCode:
             print('Link to work: {}'.format(day_matches[4].rstrip()))
             print('')
 
-    def edit_day(self):
+    def edit_day(self, day: int) -> None:
+        """Edits the details for the specified days progrss."""
         pass
 
-    def end(self):
-        pass
+    def delete(self) -> None:
+        """Deletes the 100 Days Of Code files and progress"""
+        confirm = ''
+        while confirm.lower() not in ['yes', 'y', 'no', 'n']:
+            confirm = input('This will remove the files related to your progress.' +
+                            os.linesep +
+                            'Are you sure you wish to continue? y/n: ')
+        if confirm in ['no', 'n']:
+            return
+        self._delete_project()
+        self._print_message('Progress has been deleted.')
 
     def _set_path(self, path: str) -> None:
+        """Deletes the 100 Days Of Code files and progress"""
         path_input = os.path.expanduser(path)
         while not os.path.exists(path_input):
             path_input = input('The specified path does not exist (' + path_input + '): ')
@@ -113,6 +128,7 @@ class DaysOfCode:
         self._path = path_input
 
     def _get_path(self) -> str:
+        """Obtains the path from config file"""
         if not os.path.isfile(self._config):
             raise DaysOfCodeException('No path identified. Have you started yet?')
         file = open(file=self._config, mode='r')
@@ -120,15 +136,18 @@ class DaysOfCode:
         file.close()
         return path
 
-    def _update_config(self):
+    def _update_config(self) -> None:
+        """Updates challenge config file"""
         file = open(file=self._config, mode='w')
         file.write(self._get_repo_path())
         file.close()
 
-    def _get_repo_path(self):
+    def _get_repo_path(self) -> str:
+        """Creates system path for repo"""
         return os.path.join(self._path, name_of_repo)
 
     def _write_log_header(self) -> None:
+        """Writes initial header information to the challenge log"""
         log_path = os.path.join(self._get_repo_path(), 'log.md')
         text = '# 100 Days Of Code - Log'
         if not os.path.isfile(log_path):
@@ -138,8 +157,10 @@ class DaysOfCode:
         file.close()
 
     def _delete_project(self) -> None:
-        shutil.rmtree(self._get_repo_path())
-        with contextlib.suppress(FileNotFoundError):
+        """Working code for deleting challenge files"""
+        with contextlib.suppress(FileNotFoundError, OSError):
+            # FIXME On windows the below line does not remove some git files leaving some remnants
+            shutil.rmtree(self._get_repo_path(), ignore_errors=True)
             os.remove(self._config)
 
     def _get_next_day(self) -> int:
@@ -152,6 +173,7 @@ class DaysOfCode:
         return day
 
     def _get_log_content(self) -> str:
+        """Reads all text from challenge log file"""
         log_path = os.path.join(self._get_repo_path(), 'log.md')
         file = open(log_path, 'r')
         log_text = file.read()
@@ -160,6 +182,7 @@ class DaysOfCode:
 
     @staticmethod
     def _print_message(message: str, error: bool = False) -> None:
+        """Outputs message to the user"""
         if error:
             """Do something to change color"""
             pass
