@@ -9,11 +9,11 @@ from .Git import Git
 days_of_code_remote = 'https://github.com/kallaway/100-days-of-code'
 log_template = """### Day {0}: {1}
 
-**Today's Progress**: {2}
+**Today's Progress** {2}
 
-**Thoughts:** {3}
+**Thoughts** {3}
 
-**Link to work:** [{4}]({5})"""
+**Link to work** [{4}]({5})"""
 
 
 class DaysOfCodeException(Exception):
@@ -79,6 +79,29 @@ class DaysOfCode:
                             os.linesep
                             )
 
+    def display_day(self, day: int = 0) -> None:
+        regex_parse_day = r'### (?:Day )([0-9]*)(?::)([^*]*)(?:\s)' \
+                          r'(?:\*\*Today\'s Progress\*\*)([^*]*)(?:\s)' \
+                          r'(?:\*\*Thoughts\*\*)([^*]*)(?:\s)' \
+                          r'(?:\*\*Link to work\*\*)([^#]*)'
+        if day != 0:
+            regex_parse_day = r'### (?:Day )({})(?::)([^*]*)' \
+                              r'(?:\s)(?:\*\*Today\'s Progress\*\*)([^*]*)(?:\s)' \
+                              r'(?:\*\*Thoughts\*\*)([^*]*)(?:\s)' \
+                              r'(?:\*\*Link to work\*\*)([^#]*)'.format(day)
+        days_matches = re.findall(regex_parse_day, self._get_log_content())
+        for day_matches in days_matches:
+            print('###### DAY {} ######'.format(day_matches[0]))
+            print('Date: {}'.format(day_matches[1].rstrip()))
+            print('Progress: {}'.format(day_matches[2].rstrip()))
+            print('Thoughts: {}'.format(day_matches[3].rstrip()))
+            print('Link to work: {}'.format(day_matches[4].rstrip()))
+            print('')
+
+    def edit_day(self, day) -> None:
+
+        pass
+
     def end(self) -> None:
         pass
 
@@ -100,12 +123,8 @@ class DaysOfCode:
 
     def _get_next_day(self) -> int:
         day = 1
-        log_file_path = os.path.join(self._path, '100-days-of-code', 'log.md')
-        file = open(log_file_path, 'r')
-        log_text = file.read()
-        file.close()
-        regex = '(?:### Day )([0-9]+)'
-        matches = re.findall(regex, log_text)
+        regex = r'(?:### Day )([0-9]+)'
+        matches = re.findall(regex, self._get_log_content())
         if matches:
             day = int(matches[-1]) + 1
         return day
@@ -122,8 +141,7 @@ class DaysOfCode:
 
     def _set_existing_path(self) -> None:
         os.chdir(os.path.expanduser('~'))
-        subprocess.call(['touch', '.100daysofcode'])
-        file = open(file='.100daysofcode', mode='w')
+        file = open(file='.100daysofcode', mode='a')
         file.write(self._path)
         file.close()
 
@@ -154,3 +172,10 @@ class DaysOfCode:
         os.chdir(os.path.expanduser('~'))
         with contextlib.suppress(FileNotFoundError):
             os.remove('.100daysofcode')
+
+    def _get_log_content(self) -> str:
+        log_file_path = os.path.join(self._path, '100-days-of-code', 'log.md')
+        file = open(log_file_path, 'r')
+        log_text = file.read()
+        file.close()
+        return log_text

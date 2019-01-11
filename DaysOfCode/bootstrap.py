@@ -7,6 +7,7 @@ from .DaysOfCode import DaysOfCode
 __version__ = "0.1.5"
 
 default_location = os.path.join(os.path.expanduser('~'), 'Documents')
+default_day = 0
 
 
 def main() -> None:
@@ -24,6 +25,13 @@ def main() -> None:
                        help='Logs a new day.',
                        action='store_true'
                        )
+    group.add_argument('--display', '-d',
+                       help='If a day number has been specified outputs the details, otherwise outputs all days.',
+                       default=default_day
+                       )
+    group.add_argument('--edit', '-e',
+                       help='Edit the specified day.',
+                       )
     parser.add_argument('--path', '-p',
                         help='The path where git repository is to be stored.',
                         default=default_location
@@ -36,5 +44,9 @@ def main() -> None:
         doc.restart()
     elif args.newday:
         doc.new_day()
+    elif args.display:
+        doc.display_day(args.display)
+    elif args.edit:
+        doc.edit_day(args.edit)
     else:
         parser.print_usage()

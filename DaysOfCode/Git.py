@@ -7,7 +7,7 @@ class GitException(Exception):
 
 
 class Git:
-    _path: str = ''
+    __slots__ = ['_path']
 
     def __init__(self, path: str) -> None:
         if not os.path.exists(path):
