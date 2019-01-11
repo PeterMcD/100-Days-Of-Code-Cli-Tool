@@ -65,7 +65,8 @@ class DaysOfCode:
         if project_url == "":
             project_url = '#'
         log_entry = log_template.format(day, date, progress, thoughts, project_name, project_url)
-        file = open(self._config, 'a')
+        log_path = os.path.join(self._get_repo_path(), 'log.md')
+        file = open(log_path, 'a')
         file.write('\r\n\r\n{}'.format(log_entry))
         file.close()
         self._git.add_file(repository='100-days-of-code')
@@ -88,6 +89,8 @@ class DaysOfCode:
                               r'(?:\*\*Thoughts\*\*)([^*]*)(?:\s)' \
                               r'(?:\*\*Link to work\*\*)([^#]*)'.format(day)
         days_matches = re.findall(regex_parse_day, self._get_log_content())
+        if len(days_matches) == 0:
+            print('Days not found.')
         for day_matches in days_matches:
             print('###### DAY {} ######'.format(day_matches[0]))
             print('Date: {}'.format(day_matches[1].rstrip()))
@@ -125,15 +128,16 @@ class DaysOfCode:
     def _get_repo_path(self):
         return os.path.join(self._path, name_of_repo)
 
-    def _write_log_header(self):
+    def _write_log_header(self) -> None:
+        log_path = os.path.join(self._get_repo_path(), 'log.md')
         text = '# 100 Days Of Code - Log'
-        if not os.path.isfile(self._config):
+        if not os.path.isfile(log_path):
             raise DaysOfCodeException('Log file does not exist.')
-        file = open(file=self._config, mode='w')
+        file = open(file=log_path, mode='w')
         file.write(text)
         file.close()
 
-    def _delete_project(self):
+    def _delete_project(self) -> None:
         shutil.rmtree(self._get_repo_path())
         with contextlib.suppress(FileNotFoundError):
             os.remove(self._config)
@@ -148,8 +152,8 @@ class DaysOfCode:
         return day
 
     def _get_log_content(self) -> str:
-        file_path = os.path.join(self._get_repo_path(), 'log.md')
-        file = open(file_path, 'r')
+        log_path = os.path.join(self._get_repo_path(), 'log.md')
+        file = open(log_path, 'r')
         log_text = file.read()
         file.close()
         return log_text

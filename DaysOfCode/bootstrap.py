@@ -4,7 +4,7 @@ import os
 import argparse
 from .DaysOfCode import DaysOfCode
 
-__version__ = "0.1.5"
+__version__ = "0.2.0"
 
 default_location = os.path.join(os.path.expanduser('~'), 'Documents')
 default_day = 0

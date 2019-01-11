@@ -15,19 +15,25 @@ class Git:
         self._path = path
 
     def clone_remote(self, url: str) -> None:
-        subprocess.call(['git', 'clone', url, '--work-tree', self._path, ], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
+        subprocess.call(['git', '-C', self._path, 'clone', url],
+                        shell=False,
+                        stderr=subprocess.DEVNULL,
+                        stdout=subprocess.DEVNULL)
 
     def push(self, repository: str) -> None:
         path = os.path.join(self._path, repository)
         if not os.path.exists(path):
             raise GitException('Given repository is not available')
-        subprocess.call(['git', 'push', '--work-tree', path, ], stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
+        subprocess.call(['git', '-C', self._path, 'push', ],
+                        shell=False,
+                        stdout=subprocess.DEVNULL,
+                        stderr=subprocess.DEVNULL)
 
     def add_file(self, repository: str) -> None:
         path = os.path.join(self._path, repository)
         if not os.path.exists(path):
             raise GitException('Given repository is not available')
-        subprocess.call(['git', 'add', '--work-tree', path, ],
+        subprocess.call(['git', '-C', self._path, 'add', ],
                         shell=False,
                         stdout=subprocess.DEVNULL,
                         stderr=subprocess.DEVNULL)
@@ -36,7 +42,7 @@ class Git:
         path = os.path.join(self._path, repository)
         if not os.path.exists(path):
             raise GitException('Given repository is not available')
-        subprocess.call(['git', 'commit', '-m', message, '--work-tree', path, ],
+        subprocess.call(['git', '-C', self._path, 'commit', '-m', message, ],
                         shell=False,
                         stdout=subprocess.DEVNULL,
                         stderr=subprocess.DEVNULL)
