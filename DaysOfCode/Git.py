@@ -33,7 +33,7 @@ class Git:
         path = os.path.join(self._path, repository)
         if not os.path.exists(path):
             raise GitException('Given repository is not available')
-        subprocess.call(['git', '-C', self._path, 'add', ],
+        subprocess.call(['git', '-C', self._path, 'add', '--all', ],
                         shell=False,
                         stdout=subprocess.DEVNULL,
                         stderr=subprocess.DEVNULL)
