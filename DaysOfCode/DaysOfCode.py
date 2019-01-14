@@ -1,4 +1,5 @@
 import os
+
 import datetime
 import re
 import shutil
@@ -24,9 +25,9 @@ class DaysOfCodeException(Exception):
 class DaysOfCode:
     __slots__ = ['_config', '_git', '_path']
 
-    def __init__(self, path: str) -> None:
-        self._set_path(path)
+    def __init__(self, path: str = '') -> None:
         self._config = os.path.join(os.path.expanduser('~'), '.100DaysOfCode')
+        self._set_path(path)
         self._git = Git(self._path)
 
     def start(self) -> None:
@@ -34,12 +35,12 @@ class DaysOfCode:
         self._update_config()
         self._git.clone_remote(days_of_code_remote)
         self._write_log_header()
-        self._print_message(os.linesep +
+        self.print_message(os.linesep +
                             'Congratulations, you are now ready to start the 100 Days Of Code challenge.' +
-                            os.linesep + os.linesep +
+                           os.linesep + os.linesep +
                             'Good Luck' +
-                            os.linesep
-                            )
+                           os.linesep
+                           )
 
     def restart(self) -> None:
         """Resets challenge details and log"""
@@ -73,12 +74,12 @@ class DaysOfCode:
         file.close()
         self._git.add_file(repository='100-days-of-code')
         self._git.commit(repository='100-days-of-code', message='Day {} added'.format(day))
-        self._print_message(os.linesep +
+        self.print_message(os.linesep +
                             'Congratulations on completing day ' +
-                            str(day) +
+                           str(day) +
                             ' of your 100 Days of code challenge.' +
-                            os.linesep
-                            )
+                           os.linesep
+                           )
 
     def display_day(self, day: int = 0) -> None:
         """Outputs the details for a given day, otherwise all days"""
@@ -116,14 +117,17 @@ class DaysOfCode:
         if confirm in ['no', 'n']:
             return
         self._delete_project()
-        self._print_message('Progress has been deleted.')
+        self.print_message('Progress has been deleted.')
 
-    def _set_path(self, path: str) -> None:
-        """Deletes the 100 Days Of Code files and progress"""
+    def _set_path(self, path: str = '') -> None:
+        """Sets the path the repo is stored in"""
+        if path == '':
+            path = self._get_path()
         path_input = os.path.expanduser(path)
         while not os.path.exists(path_input):
             path_input = input('The specified path does not exist (' + path_input + '): ')
             path_input = os.path.expanduser(path_input)
+        print(path_input)
         self._path = path_input
 
     def _get_path(self) -> str:
@@ -138,7 +142,7 @@ class DaysOfCode:
     def _update_config(self) -> None:
         """Updates challenge config file"""
         file = open(file=self._config, mode='w')
-        file.write(self._get_repo_path())
+        file.write(self._path)
         file.close()
 
     def _get_repo_path(self) -> str:
@@ -180,7 +184,7 @@ class DaysOfCode:
         return log_text
 
     @staticmethod
-    def _print_message(message: str, error: bool = False) -> None:
+    def print_message(message: str, error: bool = False) -> None:
         """Outputs message to the user"""
         if error:
             """Do something to change color"""
