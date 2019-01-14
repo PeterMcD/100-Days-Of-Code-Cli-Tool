@@ -3,6 +3,7 @@
 import os
 import argparse
 from .DaysOfCode import DaysOfCode
+from .DaysOfCode import DaysOfCodeException
 
 __version__ = "0.2.0"
 
@@ -41,18 +42,26 @@ def main() -> None:
                         default=default_location
                         )
     args = parser.parse_args()
-    doc = DaysOfCode(args.path)
-    if args.start:
-        doc.start()
-    elif args.restart:
-        doc.restart()
-    elif args.newday:
-        doc.new_day()
-    elif args.display:
-        doc.display_day(args.display)
-    elif args.edit:
-        doc.edit_day(args.edit)
-    elif args.delete:
-        doc.delete()
-    else:
-        parser.print_usage()
+    try:
+        if args.start:
+            doc = DaysOfCode(args.path)
+            doc.start()
+        elif args.restart:
+            doc = DaysOfCode()
+            doc.restart()
+        elif args.newday:
+            doc = DaysOfCode()
+            doc.new_day()
+        elif args.display:
+            doc = DaysOfCode()
+            doc.display_day(args.display)
+        elif args.edit:
+            doc = DaysOfCode()
+            doc.edit_day(args.edit)
+        elif args.delete:
+            doc = DaysOfCode()
+            doc.delete()
+        else:
+            parser.print_usage()
+    except DaysOfCodeException as err:
+        DaysOfCode.print_message(format(err))

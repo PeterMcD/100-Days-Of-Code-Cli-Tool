@@ -46,3 +46,6 @@ class Git:
                         shell=False,
                         stdout=subprocess.DEVNULL,
                         stderr=subprocess.DEVNULL)
+
+    def update_path(self, path: str) -> None :
+        self._path = path
