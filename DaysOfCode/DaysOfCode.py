@@ -1,5 +1,4 @@
 import os
-import subprocess
 import datetime
 import re
 import shutil
@@ -102,9 +101,10 @@ class DaysOfCode:
             print('Thoughts: {}'.format(day_matches[3].rstrip()))
             print('Link to work: {}'.format(day_matches[4].rstrip()))
             print('')
+        return None
 
     def edit_day(self, day: int) -> None:
-        """Edits the details for the specified days progrss."""
+        """Edits the details for the specified days progress."""
         pass
 
     def delete(self) -> None:
@@ -143,10 +143,17 @@ class DaysOfCode:
         file.close()
 
     def _get_repo_path(self) -> str:
-        """Creates system path for repo"""
+        """
+        Creates the path to the repository
+        :return: path to the repository
+        """
         return os.path.join(self._path, name_of_repo)
 
     def _write_log_header(self) -> None:
+        """
+        Writes the header section of the log
+        :return: None
+        """
         """Writes initial header information to the challenge log"""
         log_path = os.path.join(self._get_repo_path(), 'log.md')
         text = '# 100 Days Of Code - Log'
@@ -155,16 +162,24 @@ class DaysOfCode:
         file = open(file=log_path, mode='w')
         file.write(text)
         file.close()
+        return None
 
     def _delete_project(self) -> None:
-        """Working code for deleting challenge files"""
+        """
+        Removes the current 100 days of code files.
+        :return: None
+        """
         with contextlib.suppress(FileNotFoundError, OSError):
             # FIXME On windows the below line does not remove some git files leaving some remnants
             shutil.rmtree(self._get_repo_path(), ignore_errors=True)
             os.remove(self._config)
+        return None
 
     def _get_next_day(self) -> int:
-        """Returns the number of the next day from the log file. If no day can be found returns 1."""
+        """
+        Retrieve the number for the next day to be logged
+        :return: day: number representing the next day
+        """
         day = 1
         regex = r'(?:### Day )([0-9]+)'
         matches = re.findall(regex, self._get_log_content())
@@ -173,7 +188,10 @@ class DaysOfCode:
         return day
 
     def _get_log_content(self) -> str:
-        """Reads all text from challenge log file"""
+        """
+        Reads all text from challenge log file
+        :return:
+        """
         log_path = os.path.join(self._get_repo_path(), 'log.md')
         file = open(log_path, 'r')
         log_text = file.read()
@@ -182,8 +200,14 @@ class DaysOfCode:
 
     @staticmethod
     def _print_message(message: str, error: bool = False) -> None:
-        """Outputs message to the user"""
+        """
+        Prints a given message to the user
+        :param message: Message to be printed
+        :param error: Bool
+        :return: None
+        """
         if error:
             """Do something to change color"""
             pass
         print(message)
+        return None
