@@ -95,4 +95,7 @@ class Log:
                                                           )
             content += day_details
         return content
+
+    def __del__(self):
+        self.__log_handler.close()
     # endregion

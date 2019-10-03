@@ -4,11 +4,12 @@ import re
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-version = re.search(
-    '^__version__ *= *"([.0-9]+)"',
-    open('DaysOfCode/bootstrap.py',).read(),
-    re.M
-).group(1)
+with open('DaysOfCode/bootstrap.py',) as bootstrap:
+    version = re.search(
+        '^__version__ *= *"([.0-9]+)"',
+        bootstrap.read(),
+        re.M
+    ).group(1)
 
 setuptools.setup(
     name='DaysOfCode',
