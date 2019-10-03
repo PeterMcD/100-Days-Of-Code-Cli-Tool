@@ -1,5 +1,6 @@
 import re
 from datetime import datetime
+
 from DaysOfCode.classes.Day import Day
 
 Title_Regex = r'### (?:Day )([0-9]*)(?::)([^*]*)(?:\s)' \
@@ -20,7 +21,6 @@ class Log:
         self.__title = ''
         self.__days = []
         self.__parse_log_file(logfile)
-        pass
 
     def add_day(self, day: Day):
         self.__days[len(self.__days)] = day

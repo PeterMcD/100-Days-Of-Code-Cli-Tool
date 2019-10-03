@@ -2,7 +2,8 @@
 
 import os
 import argparse
-from .DaysOfCode import DaysOfCode
+
+from DaysOfCode.DaysOfCode import DaysOfCode
 
 __version__ = "0.2.0"
 
