@@ -7,7 +7,14 @@ from DaysOfCode.classes.Link import Link
 class Day:
     __slots__ = ['__day', '__date', '__progress', '__thoughts', '__links']
 
-    def __init__(self, day: int, day_date: date, progress: str, thoughts: str, links: List[Link]):
+    def __init__(
+            self,
+            day: int,
+            day_date: date,
+            progress: str,
+            thoughts: str,
+            links: List[Link]
+    ):
         """
         Constructor
         :param day:

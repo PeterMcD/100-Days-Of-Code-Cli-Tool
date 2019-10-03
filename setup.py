@@ -30,7 +30,8 @@ setuptools.setup(
                  "Operating System :: OS Independent",
                  ],
     licence='MIT',
-    description='Package assisting logging progress in the 100 Days Of Code challenge',
+    description='Package for logging progress in'
+                ' the 100 Days Of Code challenge',
     long_description=long_description,
     long_description_content_type="text/markdown",
     keywords=['100 days of code,'
