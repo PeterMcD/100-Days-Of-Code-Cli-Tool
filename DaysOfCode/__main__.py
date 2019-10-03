@@ -1,4 +1,4 @@
-from .bootstrap import main
+from DaysOfCode.bootstrap import main
 
 
 main()
